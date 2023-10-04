@@ -40,14 +40,20 @@ public class MoveAction : MonoBehaviour
     }
 
 
-    public void Move(Vector3 targetPosition)
+    public void Move(GridPosition gridPosition)
     {
-        this.targetPosition = targetPosition;
+        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+    }
+
+    public bool IsValidActionGridPosition(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPositionList = GetValidActionGridPostionList();
+        return validGridPositionList.Contains(gridPosition);
     }
 
     public List<GridPosition> GetValidActionGridPostionList()
     {
-        List<GridPosition> validActionGridPostionList = new List<GridPosition>();
+        List<GridPosition> validGridPostionList = new List<GridPosition>();
 
         GridPosition unitGridPosition = unit.GetGridPosition();
 
@@ -56,12 +62,30 @@ public class MoveAction : MonoBehaviour
             for (int z = -maxMoveDistance; z <= maxMoveDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPsition = unitGridPosition + offsetGridPosition;
-                Debug.Log(testGridPsition);
+                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+                {
+                    continue;
+                }
+
+                if (unitGridPosition == testGridPosition)
+                {
+                    // Same Grid Position where the unit is already at
+                    continue;
+                }
+
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    // Grid position already occupied with another Unit
+                    continue;
+                }
+            
+                validGridPostionList.Add(testGridPosition);
             }
         }
 
-        return validActionGridPostionList;
+        return validGridPostionList;
     }
 
 }
