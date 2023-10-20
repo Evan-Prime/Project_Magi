@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369cde8e208499540a25017259360bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trailRenderer: {fileID: 8019424970520550603}
+  bulletHitVfxPrefab: {fileID: 7908623878300764767, guid: eee56b5769a303041ab7f87cee66071d,
+    type: 3}
 --- !u!1 &7285352234770762803
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,6 +190,6 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.01
   m_MaskInteraction: 0
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
